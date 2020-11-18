@@ -1,0 +1,8 @@
+.counter {
+  margin: 2rem 1rem;
+  text-align: center;
+
+  & > p {
+    font-size: 32px;
+  }
+}

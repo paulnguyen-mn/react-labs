@@ -5,18 +5,20 @@ import './BoxList.scss';
 
 BoxList.propTypes = {
   boxList: PropTypes.array,
+  onBoxClick: PropTypes.func,
 };
 
 BoxList.defaultProps = {
   boxList: [],
+  onBoxClick: null,
 };
 
-function BoxList({ boxList }) {
+function BoxList({ boxList, onBoxClick }) {
   return (
     <ul className="box-list">
-      {boxList.map((box) => (
+      {boxList.map((box, idx) => (
         <li key={box.luckyNumber}>
-          <Box box={box} />
+          <Box box={box} onClick={(box) => onBoxClick && onBoxClick(box, idx)} />
         </li>
       ))}
     </ul>
