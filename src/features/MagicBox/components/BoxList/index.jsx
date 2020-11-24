@@ -18,7 +18,9 @@ function BoxList({ boxList, onBoxClick }) {
     <ul className="box-list">
       {boxList.map((box, idx) => (
         <li key={box.luckyNumber}>
-          <Box box={box} onClick={(box) => onBoxClick && onBoxClick(box, idx)} />
+          <Box box={box} onClick={(box) => onBoxClick && onBoxClick(box, idx)}>
+            BOX {box.luckyNumber}
+          </Box>
         </li>
       ))}
     </ul>
