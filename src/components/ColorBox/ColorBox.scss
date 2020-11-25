@@ -1,0 +1,18 @@
+.color-box {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  width: 250px;
+  height: 250px;
+  border-radius: 10px;
+
+  background-color: black;
+  color: white;
+
+  font-weight: bold;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
