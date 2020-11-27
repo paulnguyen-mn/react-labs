@@ -21,6 +21,10 @@ function Header(props) {
         </li>
 
         <li>
+          <NavLink to="/students">Students</NavLink>
+        </li>
+
+        <li>
           <a href="https://zingmp3.vn/" target="_blank" rel="noopener noreferrer">
             Go to Zing MP3
           </a>
