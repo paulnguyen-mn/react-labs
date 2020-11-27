@@ -1,0 +1,21 @@
+.timer {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  margin: 1rem;
+  width: 15rem;
+  height: 15rem;
+  border: 2px solid goldenrod;
+  border-radius: 0.5rem;
+
+  font-size: 3rem;
+  font-weight: bold;
+  transition: all 0.25s;
+}
+
+.timer.finished {
+  color: white;
+  background-color: goldenrod;
+}
