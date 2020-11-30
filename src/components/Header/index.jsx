@@ -1,37 +1,70 @@
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './Header.scss';
 
-function Header(props) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+
+  link: {
+    color: 'white',
+    textDecoration: 'none',
+  },
+}));
+
+export default function Header() {
+  const classes = useStyles();
+
   return (
-    <div className="header">
-      <ul className="header__menu">
-        <li>
-          <NavLink exact to="/">
-            Home
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+
+          <NavLink exact to="/" className={`${classes.title} ${classes.link}`}>
+            <Button color="inherit">Home</Button>
           </NavLink>
-        </li>
 
-        <li>
-          <NavLink to="/box">Box</NavLink>
-        </li>
+          <NavLink className={classes.link} to="/box">
+            <Button color="inherit">Box</Button>
+          </NavLink>
 
-        <li>
-          <NavLink to="/rendering">Rendering</NavLink>
-        </li>
+          <NavLink className={classes.link} to="/rendering">
+            <Button color="inherit">Rendering</Button>
+          </NavLink>
 
-        <li>
-          <NavLink to="/students">Students</NavLink>
-        </li>
+          <NavLink className={classes.link} to="/students">
+            <Button color="inherit">Students</Button>
+          </NavLink>
 
-        <li>
-          <a href="https://zingmp3.vn/" target="_blank" rel="noopener noreferrer">
-            Go to Zing MP3
+          <NavLink className={classes.link} to="/todos">
+            <Button color="inherit">Todos</Button>
+          </NavLink>
+
+          <a
+            className={classes.link}
+            href="https://zingmp3.vn/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button color="inherit">Go to Zing MP3</Button>
           </a>
-        </li>
-      </ul>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }
-
-export default Header;
