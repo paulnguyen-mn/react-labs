@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core';
+import { Box, Button, Card, CardContent, makeStyles, Typography } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
 
 TodoList.propTypes = {
   todoList: PropTypes.array,
+  onRemove: PropTypes.func,
 };
 
 TodoList.defaultProps = {
   todoList: [],
+  onRemove: null,
 };
 
 const useStyles = makeStyles(() => ({
@@ -17,22 +20,36 @@ const useStyles = makeStyles(() => ({
   },
 
   item: {
-    padding: '.5rem 1rem',
     margin: '1rem 0',
-
-    border: '1px solid #ddd',
-    borderRadius: '4px',
   },
 }));
 
-function TodoList({ todoList }) {
+function TodoList({ todoList, onRemove }) {
   const classes = useStyles();
 
   return (
     <ul className={classes.root}>
       {todoList.map((todo) => (
         <li className={classes.item} key={todo.id}>
-          {todo.value}
+          <Card>
+            <CardContent>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography component="p" variant="body1">
+                  {todo.value}
+                </Typography>
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                  startIcon={<Delete />}
+                  onClick={() => onRemove && onRemove(todo)}
+                >
+                  Delete
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
         </li>
       ))}
     </ul>
