@@ -13,18 +13,13 @@ function TodoFeature(props) {
   ]);
 
   const [selectedTodo, setSelectedTodo] = useState(null);
-  // const [showForm, setShowForm] = useState(true);
 
   const handleRemoveClick = (todo) => {
     setTodoList((currentList) => currentList.filter((x) => x.id !== todo.id));
   };
 
   const handleEditClick = (todo) => {
-    console.log('Edit  click', todo);
-    // setShowForm(false);
     setSelectedTodo(todo);
-
-    // setTimeout(() => setShowForm(true));
   };
 
   const handleFormSubmit = (formValues) => {
@@ -67,7 +62,7 @@ function TodoFeature(props) {
 
   return (
     <Container fixed>
-      {showForm && <TodoForm initialValues={selectedTodo} onSubmit={handleFormSubmit} />}
+      <TodoForm initialValues={selectedTodo} onSubmit={handleFormSubmit} />
       <TodoList todoList={todoList} onRemove={handleRemoveClick} onEdit={handleEditClick} />
     </Container>
   );
