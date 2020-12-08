@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Card, CardContent, makeStyles, Typography } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
+import { Delete, Edit } from '@material-ui/icons';
 
 TodoList.propTypes = {
   todoList: PropTypes.array,
   onRemove: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 TodoList.defaultProps = {
   todoList: [],
   onRemove: null,
+  onEdit: null,
 };
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +26,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function TodoList({ todoList, onRemove }) {
+function TodoList({ todoList, onRemove, onEdit }) {
   const classes = useStyles();
 
   return (
@@ -34,9 +36,23 @@ function TodoList({ todoList, onRemove }) {
           <Card>
             <CardContent>
               <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Typography component="p" variant="body1">
-                  {todo.value}
-                </Typography>
+                <Box flex="1 1 auto">
+                  <Typography component="p" variant="body1">
+                    {todo.value}
+                  </Typography>
+                </Box>
+
+                <Box mr={1}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<Edit />}
+                    onClick={() => onEdit && onEdit(todo)}
+                  >
+                    Edit
+                  </Button>
+                </Box>
 
                 <Button
                   variant="contained"

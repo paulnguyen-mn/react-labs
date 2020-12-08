@@ -12,11 +12,47 @@ function TodoFeature(props) {
     { id: '3', value: 'Sleep' },
   ]);
 
+  const [selectedTodo, setSelectedTodo] = useState(null);
+  // const [showForm, setShowForm] = useState(true);
+
   const handleRemoveClick = (todo) => {
     setTodoList((currentList) => currentList.filter((x) => x.id !== todo.id));
   };
 
+  const handleEditClick = (todo) => {
+    console.log('Edit  click', todo);
+    // setShowForm(false);
+    setSelectedTodo(todo);
+
+    // setTimeout(() => setShowForm(true));
+  };
+
   const handleFormSubmit = (formValues) => {
+    // EDIT MODE
+    if (selectedTodo) {
+      // clone todo list
+      // find index
+      // update value
+      // set list = new list
+      setTodoList((currentList) => {
+        const newList = [...currentList];
+        const updatedIdx = newList.findIndex((x) => x.id === selectedTodo.id);
+        if (updatedIdx < 0) return currentList;
+
+        // clone todo item
+        newList[updatedIdx] = {
+          ...newList[updatedIdx],
+          ...formValues,
+        };
+
+        return newList;
+      });
+      setSelectedTodo(null);
+
+      return;
+    }
+
+    // ADD MODE
     // Push to todoList
     setTodoList((currentList) => {
       // New item
@@ -31,8 +67,8 @@ function TodoFeature(props) {
 
   return (
     <Container fixed>
-      <TodoForm onSubmit={handleFormSubmit} />
-      <TodoList todoList={todoList} onRemove={handleRemoveClick} />
+      {showForm && <TodoForm initialValues={selectedTodo} onSubmit={handleFormSubmit} />}
+      <TodoList todoList={todoList} onRemove={handleRemoveClick} onEdit={handleEditClick} />
     </Container>
   );
 }
