@@ -40,6 +40,10 @@ function TodoList({ todoList, onRemove, onEdit }) {
                   <Typography component="p" variant="body1">
                     {todo.value}
                   </Typography>
+
+                  <Typography component="p" variant="body2">
+                    {todo.description}
+                  </Typography>
                 </Box>
 
                 <Box mr={1}>
