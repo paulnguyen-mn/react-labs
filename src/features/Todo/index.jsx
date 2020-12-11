@@ -1,4 +1,4 @@
-import { Box, Container } from '@material-ui/core';
+import { Box, Button, ButtonGroup, Container } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -6,15 +6,18 @@ import TodoList from './components/TodoList';
 TodoFeature.propTypes = {};
 
 function TodoFeature(props) {
+  const [filters, setFilters] = useState({
+    completed: 'all',
+  });
   const [todoList, setTodoList] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('todo_list')) || [];
     } catch (error) {}
 
     return [
-      { id: '1', value: 'Eat', description: 'Lorem ipsum dolor sit amet.' },
-      { id: '2', value: 'Code', description: 'Lorem ipsum dolor sit amet.' },
-      { id: '3', value: 'Sleep', description: 'Lorem ipsum dolor sit amet.' },
+      { id: '1', value: 'Eat', description: 'Lorem ipsum dolor sit amet.', completed: false },
+      { id: '2', value: 'Code', description: 'Lorem ipsum dolor sit amet.', completed: false },
+      { id: '3', value: 'Sleep', description: 'Lorem ipsum dolor sit amet.', completed: false },
     ];
   });
 
@@ -70,13 +73,43 @@ function TodoFeature(props) {
     });
   };
 
+  const filteredTodos =
+    filters.completed === 'all'
+      ? todoList
+      : todoList.filter((x) => x.completed === filters.completed);
+
   return (
     <Container fixed>
       <Box mt={3} mb={5}>
         <TodoForm initialValues={selectedTodo} onSubmit={handleFormSubmit} />
       </Box>
 
-      <TodoList todoList={todoList} onRemove={handleRemoveClick} onEdit={handleEditClick} />
+      <Box textAlign="center">
+        <ButtonGroup color="primary" aria-label="outlined primary button group">
+          <Button
+            variant={filters.completed === 'all' ? 'contained' : 'outlined'}
+            onClick={() => setFilters({ completed: 'all' })}
+          >
+            All
+          </Button>
+
+          <Button
+            variant={filters.completed === true ? 'contained' : 'outlined'}
+            onClick={() => setFilters({ completed: true })}
+          >
+            Completed
+          </Button>
+
+          <Button
+            variant={filters.completed === false ? 'contained' : 'outlined'}
+            onClick={() => setFilters({ completed: false })}
+          >
+            Not Completed
+          </Button>
+        </ButtonGroup>
+      </Box>
+
+      <TodoList todoList={filteredTodos} onRemove={handleRemoveClick} onEdit={handleEditClick} />
     </Container>
   );
 }
