@@ -1,18 +1,28 @@
 import { Box, Container } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 
 TodoFeature.propTypes = {};
 
 function TodoFeature(props) {
-  const [todoList, setTodoList] = useState([
-    { id: '1', value: 'Eat', description: 'Lorem ipsum dolor sit amet.' },
-    { id: '2', value: 'Code', description: 'Lorem ipsum dolor sit amet.' },
-    { id: '3', value: 'Sleep', description: 'Lorem ipsum dolor sit amet.' },
-  ]);
+  const [todoList, setTodoList] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('todo_list')) || [];
+    } catch (error) {}
+
+    return [
+      { id: '1', value: 'Eat', description: 'Lorem ipsum dolor sit amet.' },
+      { id: '2', value: 'Code', description: 'Lorem ipsum dolor sit amet.' },
+      { id: '3', value: 'Sleep', description: 'Lorem ipsum dolor sit amet.' },
+    ];
+  });
 
   const [selectedTodo, setSelectedTodo] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem('todo_list', JSON.stringify(todoList));
+  }, [todoList]);
 
   const handleRemoveClick = (todo) => {
     setTodoList((currentList) => currentList.filter((x) => x.id !== todo.id));

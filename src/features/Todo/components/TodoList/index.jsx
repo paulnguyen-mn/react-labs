@@ -37,7 +37,11 @@ function TodoList({ todoList, onRemove, onEdit }) {
             <CardContent>
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Box flex="1 1 auto">
-                  <Typography component="p" variant="body1">
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+                  >
                     {todo.value}
                   </Typography>
 
