@@ -9,42 +9,32 @@ InputField.propTypes = {
 
   label: PropTypes.string,
   disabled: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 InputField.defaultProps = {
   label: '',
   disabled: false,
+  type: 'text',
 };
 
 function InputField(props) {
-  const { name, label, form, disabled } = props;
+  const { name, label, form, disabled, type } = props;
   const { errors } = form;
-  console.log({ errors });
   const errorMessage = errors[name]?.message;
   const hasError = !!errorMessage;
 
   return (
     <Box mt={1} mb={2}>
-      {/* <Controller
-        name={name}
-        control={form.control}
-        as={TextField}
-        fullWidth
-        label={label}
-        disabled={disabled}
-        variant="outlined"
-      /> */}
-
       <Controller
         name={name}
         control={form.control}
         render={({ value, onChange, onBlur }) => (
           <TextField
             fullWidth
-            type="text"
+            type={type}
             name={name}
             value={value}
-            // onChange={(e) => onChange(e.target.value.toUpperCase())}
             onChange={onChange}
             onBlur={onBlur}
             label={label}

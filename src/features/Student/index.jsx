@@ -1,16 +1,27 @@
+import { Button, Container, Dialog, DialogContent, LinearProgress } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 import studentApi from 'api/studentApi';
 import React, { useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import StudentForm from './components/StudentForm';
 import StudentList from './components/StudentList';
 
 function StudentFeature(props) {
-  const match = useRouteMatch();
   const [filters, setFilters] = useState({
     _page: 1,
     _limit: 10,
+    _sort: 'updatedAt',
+    _order: 'desc',
   });
   const [studentList, setStudentList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedStudent(null);
+  };
 
   useEffect(() => {
     (async () => {
@@ -23,11 +34,90 @@ function StudentFeature(props) {
     })();
   }, [filters]);
 
+  const handleEditClick = (student) => {
+    setSelectedStudent({
+      gender: '',
+      city: '',
+      ...student,
+    });
+    setOpen(true);
+  };
+
+  const handleSubmit = async (values) => {
+    const isAdd = !selectedStudent;
+    if (isAdd) {
+      await studentApi.add(values);
+      // re-fetch student list with current filters
+      setFilters((x) => ({ ...x }));
+      setOpen(false);
+      return;
+    }
+
+    // Edit mode
+    try {
+      setSubmitting(true);
+
+      values.id = selectedStudent.id;
+      const updatedStudent = await studentApi.update(values);
+
+      // Update student item
+      setStudentList((currentList) => {
+        const newList = [...currentList];
+        const updatedIdx = newList.findIndex((x) => x.id === selectedStudent.id);
+        if (updatedIdx < 0) return currentList;
+
+        // clone todo item
+        newList[updatedIdx] = {
+          ...newList[updatedIdx],
+          ...updatedStudent,
+        };
+
+        return newList;
+      });
+      setSelectedStudent(null);
+
+      // Close dialog
+      setOpen(false);
+    } catch (error) {
+      console.log('Failed to update student', error);
+    }
+
+    setSubmitting(false);
+  };
+
+  const handleAddClick = () => setOpen(true);
+
+  const handleRemoveClick = async (student) => {
+    try {
+      const message = `Are you sure to remove student named "${student.name}"? 😭`;
+      if (window.confirm(message)) {
+        await studentApi.remove(student.id);
+        setFilters((x) => ({ ...x }));
+      }
+    } catch (error) {
+      console.log('Failed to remove student: ', error);
+    }
+  };
+
   return (
     <div>
-      <h2>STUDENT FEATURE</h2>
+      <Container fixed>
+        <h2>STUDENT FEATURE</h2>
 
-      <StudentList data={studentList} />
+        <Button variant="contained" color="primary" startIcon={<Add />} onClick={handleAddClick}>
+          Add new student
+        </Button>
+
+        <StudentList data={studentList} onEdit={handleEditClick} onRemove={handleRemoveClick} />
+
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+          {submitting && <LinearProgress />}
+
+          <DialogContent>
+            <StudentForm initialValues={selectedStudent} onSubmit={handleSubmit} />
+          </DialogContent>
+        </Dialog>
+      </Container>
     </div>
   );
 }
