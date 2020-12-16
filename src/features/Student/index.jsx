@@ -38,6 +38,8 @@ function StudentFeature(props) {
     setSelectedStudent({
       gender: '',
       city: '',
+      level: 'junior',
+      avatar: '',
       ...student,
     });
     setOpen(true);
@@ -110,7 +112,7 @@ function StudentFeature(props) {
 
         <StudentList data={studentList} onEdit={handleEditClick} onRemove={handleRemoveClick} />
 
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
           {submitting && <LinearProgress />}
 
           <DialogContent>
