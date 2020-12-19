@@ -4,8 +4,9 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import ThemeContext, { themes } from 'themeContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
+  const { setCurrentTheme } = useContext(ThemeContext);
+
+  const handleToggleClick = () => {
+    setCurrentTheme((theme) => (theme.name === 'light' ? themes.dark : themes.light));
+  };
 
   return (
     <div className={classes.root}>
@@ -38,6 +44,10 @@ export default function Header() {
           <NavLink exact to="/" className={`${classes.title} ${classes.link}`}>
             <Button color="inherit">Home</Button>
           </NavLink>
+
+          <Button color="inherit" onClick={handleToggleClick}>
+            Toggle
+          </Button>
 
           <NavLink className={classes.link} to="/box">
             <Button color="inherit">Box</Button>

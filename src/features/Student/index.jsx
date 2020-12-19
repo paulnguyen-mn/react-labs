@@ -1,7 +1,8 @@
 import { Button, Container, Dialog, DialogContent, LinearProgress } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import studentApi from 'api/studentApi';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import ThemeContext from 'themeContext';
 import StudentForm from './components/StudentForm';
 import StudentList from './components/StudentList';
 
@@ -17,6 +18,9 @@ function StudentFeature(props) {
   const [submitting, setSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const { currentTheme: theme } = useContext(ThemeContext);
+  console.log({ theme });
 
   const handleClose = () => {
     setOpen(false);
@@ -102,7 +106,7 @@ function StudentFeature(props) {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: theme.primaryColor, transition: 'all .25s' }}>
       <Container fixed>
         <h2>STUDENT FEATURE</h2>
 
