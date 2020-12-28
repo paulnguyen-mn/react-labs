@@ -1,3 +1,4 @@
+import CounterFeature from 'features/Counter';
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ThemeContext, { themes } from 'themeContext';
@@ -25,6 +26,7 @@ function App() {
           <Route path="/rendering" component={RenderingFeature} />
           <Route path="/students" component={StudentFeature} />
           <Route path="/todos" component={TodoFeature} />
+          <Route path="/counter" component={CounterFeature} />
           <Route component={NotFound} />
         </Switch>
 
