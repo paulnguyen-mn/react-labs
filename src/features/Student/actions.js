@@ -23,6 +23,8 @@ export const getStudentList = (params) => {
     } catch (error) {
       const action = getStudentListFailed(error);
       dispatch(action);
+
+      throw error;
     }
   };
 };

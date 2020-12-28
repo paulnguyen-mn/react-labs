@@ -27,11 +27,23 @@ function StudentFeature(props) {
   const [selectedStudent, setSelectedStudent] = useState(null);
 
   const { currentTheme: theme } = useContext(ThemeContext);
-  console.log({ theme });
+  // console.log({ theme });
 
   useEffect(() => {
-    const action = getStudentList(filters);
-    dispatch(action);
+    (async () => {
+      try {
+        console.log('Start loading');
+        setLoading(true);
+
+        const action = getStudentList(filters);
+        await dispatch(action);
+
+        setLoading(false);
+        console.log('End loading');
+      } catch (error) {
+        console.log('Failed to fetch student list 123456', error);
+      }
+    })();
   }, [dispatch, filters]);
 
   const handleClose = () => {
@@ -45,7 +57,7 @@ function StudentFeature(props) {
         const { data } = await studentApi.getAll(filters);
         setStudentList(data);
       } catch (error) {
-        console.log('Failed to fetch student list:', error);
+        // console.log('Failed to fetch student list:', error);
       }
     })();
   }, [filters]);
