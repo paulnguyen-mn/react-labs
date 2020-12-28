@@ -2,11 +2,18 @@ import { Button, Container, Dialog, DialogContent, LinearProgress } from '@mater
 import { Add } from '@material-ui/icons';
 import studentApi from 'api/studentApi';
 import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ThemeContext from 'themeContext';
+import { getStudentList } from './actions';
 import StudentForm from './components/StudentForm';
 import StudentList from './components/StudentList';
 
 function StudentFeature(props) {
+  const studentList1 = useSelector((state) => state.students.list);
+  const studentListLoading = useSelector((state) => state.students.loading);
+  const dispatch = useDispatch();
+  console.log('Student List From Redux', { studentListLoading, studentList1 });
+
   const [filters, setFilters] = useState({
     _page: 1,
     _limit: 10,
@@ -20,7 +27,24 @@ function StudentFeature(props) {
   const [selectedStudent, setSelectedStudent] = useState(null);
 
   const { currentTheme: theme } = useContext(ThemeContext);
-  console.log({ theme });
+  // console.log({ theme });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        console.log('Start loading');
+        setLoading(true);
+
+        const action = getStudentList(filters);
+        await dispatch(action);
+
+        setLoading(false);
+        console.log('End loading');
+      } catch (error) {
+        console.log('Failed to fetch student list 123456', error);
+      }
+    })();
+  }, [dispatch, filters]);
 
   const handleClose = () => {
     setOpen(false);
@@ -33,7 +57,7 @@ function StudentFeature(props) {
         const { data } = await studentApi.getAll(filters);
         setStudentList(data);
       } catch (error) {
-        console.log('Failed to fetch student list:', error);
+        // console.log('Failed to fetch student list:', error);
       }
     })();
   }, [filters]);
