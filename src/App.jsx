@@ -1,3 +1,4 @@
+import CartFeature from 'features/Cart';
 import CounterFeature from 'features/Counter';
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/students" component={StudentFeature} />
           <Route path="/todos" component={TodoFeature} />
           <Route path="/counter" component={CounterFeature} />
+          <Route path="/cart" component={CartFeature} />
           <Route component={NotFound} />
         </Switch>
 
