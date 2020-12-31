@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const studentApi = {
   getAll(params) {
-    throw new Error('Loi ne :P');
+    // throw new Error('Loi ne :P');
     const url = '/students';
     return axiosClient.get(url, { params });
   },
