@@ -2,12 +2,14 @@ import { Button, Container, Typography } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from './cartSlice';
+import { cartItemsSelector, itemsCountSelector, totalSelector } from './selectors';
 
 CartFeature.propTypes = {};
 
 function CartFeature(props) {
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const cartItems = useSelector(cartItemsSelector);
+  const totalAmount = useSelector(totalSelector);
+  const itemsCount = useSelector(itemsCountSelector);
   const dispatch = useDispatch();
 
   const handleAddToCartClick = () => {
@@ -18,7 +20,7 @@ function CartFeature(props) {
     dispatch(action);
   };
 
-  console.log('Cart items:', cartItems);
+  console.log('Cart items:', itemsCount, cartItems);
 
   return (
     <Container>
