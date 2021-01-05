@@ -1,6 +1,8 @@
 import { Button, Typography } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Counter1 from './Counter1';
+import Counter2 from './Counter2';
 import { decrement, increment } from './counterSlice';
 
 CounterFeature.propTypes = {};
@@ -20,7 +22,9 @@ function CounterFeature() {
 
   return (
     <div>
-      <Typography component="h2" variant="h2">
+      <Counter1 />
+      <Counter2 />
+      {/* <Typography component="h2" variant="h2">
         {count}
       </Typography>
 
@@ -35,7 +39,7 @@ function CounterFeature() {
 
       <Button variant="contained" color="primary" onClick={handleIncreaseClick}>
         Increase
-      </Button>
+      </Button> */}
     </div>
   );
 }

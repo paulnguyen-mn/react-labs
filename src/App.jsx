@@ -1,5 +1,7 @@
+import { Typography } from '@material-ui/core';
 import CartFeature from 'features/Cart';
 import CounterFeature from 'features/Counter';
+import { useCountDown } from 'hooks/useCountDown';
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ThemeContext, { themes } from 'themeContext';
@@ -16,10 +18,13 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState(themes.light);
   const value = { currentTheme, setCurrentTheme };
 
+  const seconds = useCountDown({ initialSeconds: 10 });
+
   return (
     <div>
       <ThemeContext.Provider value={value}>
         <Header />
+        <Typography variant="h1">{seconds}</Typography>
 
         <Switch>
           <Route exact path="/" component={HomePage} />
