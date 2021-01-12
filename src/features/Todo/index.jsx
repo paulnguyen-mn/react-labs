@@ -1,6 +1,17 @@
-import { Box, Button, ButtonGroup, Container } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  FormControl,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { addTodo, removeTodo, setFilters, updateTodo } from './actions';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -8,10 +19,22 @@ import TodoList from './components/TodoList';
 TodoFeature.propTypes = {};
 
 function TodoFeature(props) {
+  const { t, i18n } = useTranslation(['common', 'todos']);
+  // const [lng, setLng] = useState(i18n.language);
+  const {
+    url,
+    params: { lng },
+  } = useRouteMatch();
+  const history = useHistory();
+
   const todoList = useSelector((state) => state.todos.list);
   const filters = useSelector((state) => state.todos.filters);
   const dispatch = useDispatch();
   const [selectedTodo, setSelectedTodo] = useState(null);
+
+  useEffect(() => {
+    i18n.changeLanguage(lng);
+  }, [i18n, lng]);
 
   useEffect(() => {
     localStorage.setItem('todo_list', JSON.stringify(todoList));
@@ -39,6 +62,15 @@ function TodoFeature(props) {
     setSelectedTodo(null);
   };
 
+  const handleLanguageChange = (e) => {
+    const selectedLng = e.target.value;
+    // console.log('Language change: ', e.target.value);
+    // setLng(selectedLng);
+    // i18n.changeLanguage(selectedLng);
+    const newUrl = url.replace(/^\/.{2}\//, `/${selectedLng}/`);
+    history.push(newUrl);
+  };
+
   const filteredTodos =
     filters.completed === 'all'
       ? todoList
@@ -46,6 +78,23 @@ function TodoFeature(props) {
 
   return (
     <Container fixed>
+      <Typography variant="h2">{t('hello-world')}</Typography>
+      <Typography variant="h2">{t('hello-someone', { name: 'Hau :P' })}</Typography>
+
+      <Typography variant="body1">
+        <Trans i18nKey="todos:go-to-easy-frontend">
+          Go to <a href="#">Easy Frontend</a>. <br />
+          New line here...
+        </Trans>
+      </Typography>
+
+      <FormControl variant="outlined">
+        <Select value={lng} onChange={handleLanguageChange}>
+          <MenuItem value="en">English</MenuItem>
+          <MenuItem value="vi">Tiếng Việt</MenuItem>
+        </Select>
+      </FormControl>
+
       <Box mt={3} mb={5}>
         <TodoForm initialValues={selectedTodo} onSubmit={handleFormSubmit} />
       </Box>
