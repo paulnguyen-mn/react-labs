@@ -1,0 +1,9 @@
+{
+  "save": "Save",
+  "next": "Next",
+  "submit": "Submit",
+  "back": "Back",
+  "home": "Home",
+  "hello-world": "Hello World",
+  "hello-someone": "Hi {{name}}!"
+}
