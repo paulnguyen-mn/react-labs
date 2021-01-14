@@ -88,6 +88,7 @@ function StudentFeature(props) {
       city: '',
       level: 'junior',
       avatar: '',
+      contacts: [],
       ...student,
     });
     setOpen(true);
